@@ -1,6 +1,4 @@
 export type User = {
-    playerName: string,
-    userId: string,
-    mail: string
-
+    playerId: number,
+    playerName: string
 }

@@ -14,41 +14,8 @@ type GameContextProviderPropsType = {
 
 
 const GameContextProvider = ({children}: GameContextProviderPropsType) => {
-    
-    useEffect(() => {
-        GameApi.getBoard(1).then(board => {
-            setSpaces(board.spaceDtos)
-            setPlayers(board.playerDtos)
-            setWidth(board.width)
-            setHeight(board.height)
-            setGameId(board.boardId)
-            setGameName(board.boardName)
-            if (board.currentPlayerDto) {
-                setCurrentPlayer(board.currentPlayerDto)
-                board.playerDtos.forEach((player,index)=>{
-                    if(player.playerId === board.currentPlayerDto?.playerId){
-                        setCurrentPlayerIndex(index)
-                    }
-                })
-
-            }
-
-            setLoaded(true)
-        }).catch(() => {
-            console.error("Error while fetching board from backend")
-        })
-    }, [])
-
-
-
 
     const [games, setGames] = useState<Game[]>([])
-
-
-    // useEffect(() => {
-    //     setGames(GameApi.getGames())
-    // }, [])
-
     //The code below is executed when the provider is rendered (inside App.tsx)
     //The code should fetch the data from the API instead of using a static assignment
     //Define a useState variable, note that useState returns an array, containing that state itself aswell as
@@ -148,6 +115,77 @@ const GameContextProvider = ({children}: GameContextProviderPropsType) => {
     }, [])
 
 
+
+    useEffect( () => {
+        const interval = setInterval( async () => {
+
+            if (loaded && gameId >= 0) {
+                GameApi.getBoard(gameId).then(board => {
+                    if (gameId === board.boardId) {
+                        setSpaces(board.spaceDtos)
+                        setPlayers(board.playerDtos)
+                        setWidth(board.width)
+                        setHeight(board.height)
+                        setGameId(board.boardId)
+                        setGameName(board.boardName)
+
+                        if (board.currentPlayerDto) {
+                            setCurrentPlayer(board.currentPlayerDto)
+                            board.playerDtos.forEach((player, index) => {
+                                if (player.playerId === board.currentPlayerDto?.playerId) {
+                                    setCurrentPlayerIndex(index)
+                                }
+                            })
+                        } else {
+                            console.error("Load outdated")
+                        }
+                    }
+                }).catch(() => {
+                    console.error("Board could not be loaded")
+                })
+            } else {
+                GameApi.getGames().then( games => {
+                    setGames(games)
+                }).catch(() => {
+                    console.error("Games could not be loaded")
+                });
+            }
+        }, 5000)
+
+        return () => clearInterval(interval)
+    }, [loaded, gameId])
+
+
+
+    // useEffect(() => {
+    //     if (loaded && gameId >= 0) {
+    //         GameApi.getBoard(gameId).then(board => {
+    //             setSpaces(board.spaceDtos)
+    //             setPlayers(board.playerDtos)
+    //             setWidth(board.width)
+    //             setHeight(board.height)
+    //             setGameId(board.boardId)
+    //             setGameName(board.boardName)
+    //             if (board.currentPlayerDto) {
+    //                 setCurrentPlayer(board.currentPlayerDto)
+    //                 board.playerDtos.forEach((player, index) => {
+    //                     if (player.playerId === board.currentPlayerDto?.playerId) {
+    //                         setCurrentPlayerIndex(index)
+    //                     }
+    //                 })
+    //
+    //             }
+    //
+    //             setLoaded(true)
+    //         }).catch(() => {
+    //             console.error("Error while fetching board from backend")
+    //         })
+    //     } else {
+    //     }
+    //
+    //
+    //
+    // }, [])
 
 
 

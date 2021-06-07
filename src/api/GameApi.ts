@@ -29,7 +29,7 @@ class GameApi{
     }
 
     public getGames() {
-        return axios.get<Board>(`${this.BACKEND_URL}/board/`).then(value =>value.data)
+        return axios.get<Game[]>(`${this.BACKEND_URL}/game`).then(value =>value.data)
     }
 }
 
