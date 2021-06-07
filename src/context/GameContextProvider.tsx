@@ -16,6 +16,34 @@ type GameContextProviderPropsType = {
 const GameContextProvider = ({children}: GameContextProviderPropsType) => {
 
     const [games, setGames] = useState<Game[]>([])
+
+    // useEffect(() => {
+    //     GameApi.getBoard(gameId).then(board => {
+    //         setSpaces(board.spaceDtos)
+    //         setPlayers(board.playerDtos)
+    //         setWidth(board.width)
+    //         setHeight(board.height)
+    //         setGameId(board.boardId)
+    //         setGameName(board.boardName)
+    //         if (board.currentPlayerDto) {
+    //             setCurrentPlayer(board.currentPlayerDto)
+    //             board.playerDtos.forEach((player, index) => {
+    //                 if (player.playerId === board.currentPlayerDto?.playerId) {
+    //                     setCurrentPlayerIndex(index)
+    //                 }
+    //             })
+    //
+    //         }
+    //
+    //         setLoaded(true)
+    //     }).catch(() => {
+    //         console.error("Error while fetching board from backend")
+    //     })
+    //
+    //
+    // }, [])
+
+
     //The code below is executed when the provider is rendered (inside App.tsx)
     //The code should fetch the data from the API instead of using a static assignment
     //Define a useState variable, note that useState returns an array, containing that state itself aswell as
@@ -85,32 +113,39 @@ const GameContextProvider = ({children}: GameContextProviderPropsType) => {
 
 
     const selectGame = useCallback(async (game: Game) => {
-        GameApi.getBoard(game.Id).then(board => {
-            setSpaces(board.spaceDtos)
-            setPlayers(board.playerDtos)
-            setWidth(board.width)
-            setHeight(board.height)
-            setGameId(board.boardId)
-            setGameName(board.boardName)
+        if (game.started) {
+            GameApi.getBoard(game.Id).then(board => {
+                if (board.playerDtos.length > 0) {
+                    setSpaces(board.spaceDtos)
+                    setPlayers(board.playerDtos)
+                    setWidth(board.width)
+                    setHeight(board.height)
+                    setGameId(board.boardId)
+                    setGameName(board.boardName)
 
-            if (board.currentPlayerDto) {
-                setCurrentPlayer(board.currentPlayerDto)
-                board.playerDtos.forEach((player,index)=>{
-                    if (player.playerId === board.currentPlayerDto?.playerId) {
-                        setCurrentPlayerIndex(index)
+                    if (board.currentPlayerDto) {
+                        setCurrentPlayer(board.currentPlayerDto)
+                        board.playerDtos.forEach((player, index) => {
+                            if (player.playerId === board.currentPlayerDto?.playerId) {
+                                setCurrentPlayerIndex(index)
+                            }
+                        })
                     }
-                })
-            }
-            setLoaded(true);
+                    setLoaded(true)
+                }
 
-        }).catch(() => {
-            console.error("Error while fetching board from backend")
-        })
+            }).catch(() => {
+                console.error("Error while fetching board from backend")
+            })
+        } else {
+            console.error("Selected Game '" + game.name + "' is not started yet!")
+        }
 
     }, [])
 
 
     const unselectGame = useCallback(async () => {
+       // setGameId(-1)
         setLoaded(false)
     }, [])
 
@@ -148,44 +183,14 @@ const GameContextProvider = ({children}: GameContextProviderPropsType) => {
                     setGames(games)
                 }).catch(() => {
                     console.error("Games could not be loaded")
-                });
+                })
             }
-        }, 5000)
+        }, )
 
         return () => clearInterval(interval)
     }, [loaded, gameId])
 
 
-
-    // useEffect(() => {
-    //     if (loaded && gameId >= 0) {
-    //         GameApi.getBoard(gameId).then(board => {
-    //             setSpaces(board.spaceDtos)
-    //             setPlayers(board.playerDtos)
-    //             setWidth(board.width)
-    //             setHeight(board.height)
-    //             setGameId(board.boardId)
-    //             setGameName(board.boardName)
-    //             if (board.currentPlayerDto) {
-    //                 setCurrentPlayer(board.currentPlayerDto)
-    //                 board.playerDtos.forEach((player, index) => {
-    //                     if (player.playerId === board.currentPlayerDto?.playerId) {
-    //                         setCurrentPlayerIndex(index)
-    //                     }
-    //                 })
-    //
-    //             }
-    //
-    //             setLoaded(true)
-    //         }).catch(() => {
-    //             console.error("Error while fetching board from backend")
-    //         })
-    //     } else {
-    //     }
-    //
-    //
-    //
-    // }, [])
 
 
 
