@@ -6,10 +6,10 @@ import {Game} from "../types/Game";
 class GameApi{
     private static instance : GameApi;
     private readonly BACKEND_URL = "http://localhost:8080"
-    private constructor() {}
+    private constructor() {
+    }
 
     public static getInstance():GameApi{
-        console.log("heloo")
         if(!GameApi.instance){
             GameApi.instance = new GameApi();
         }
@@ -28,8 +28,28 @@ class GameApi{
         return axios.put(`${this.BACKEND_URL}/board/${boardId}/switchplayer`)
     }
 
+    private static games : Game[] =[
+        {
+            id: 1, name: "Board 1", started: false,
+            users: [
+                {playerId: 1, playerName: "player 1"},
+                {playerId: 2, playerName: "player 2"}
+            ]
+        },
+
+        {
+            id: 2, name: "Board 2", started: false,
+            users: [
+                {playerId: 1, playerName: "player 1"},
+                {playerId: 2, playerName: "player 2"}
+            ]
+        }
+
+    ]
+
     public getGames() {
         return axios.get<Game[]>(`${this.BACKEND_URL}/game`).then(value =>value.data)
+        //return GameApi.games
     }
 }
 

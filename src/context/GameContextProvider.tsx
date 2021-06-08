@@ -5,8 +5,7 @@ import {Board} from "../types/Board";
 import {Space} from "../types/Space";
 import GameApi from "../api/GameApi";
 import {Game} from "../types/Game";
-import { getgid } from "process";
-import GamesComponent from "../components/GamesComponent";
+
 
 type GameContextProviderPropsType = {
     children: ReactNode
@@ -16,32 +15,6 @@ type GameContextProviderPropsType = {
 const GameContextProvider = ({children}: GameContextProviderPropsType) => {
 
     const [games, setGames] = useState<Game[]>([])
-
-    // useEffect(() => {
-    //     GameApi.getBoard(gameId).then(board => {
-    //         setSpaces(board.spaceDtos)
-    //         setPlayers(board.playerDtos)
-    //         setWidth(board.width)
-    //         setHeight(board.height)
-    //         setGameId(board.boardId)
-    //         setGameName(board.boardName)
-    //         if (board.currentPlayerDto) {
-    //             setCurrentPlayer(board.currentPlayerDto)
-    //             board.playerDtos.forEach((player, index) => {
-    //                 if (player.playerId === board.currentPlayerDto?.playerId) {
-    //                     setCurrentPlayerIndex(index)
-    //                 }
-    //             })
-    //
-    //         }
-    //
-    //         setLoaded(true)
-    //     }).catch(() => {
-    //         console.error("Error while fetching board from backend")
-    //     })
-    //
-    //
-    // }, [])
 
 
     //The code below is executed when the provider is rendered (inside App.tsx)
@@ -114,7 +87,7 @@ const GameContextProvider = ({children}: GameContextProviderPropsType) => {
 
     const selectGame = useCallback(async (game: Game) => {
         if (game.started) {
-            GameApi.getBoard(game.Id).then(board => {
+            GameApi.getBoard(game.id).then(board => {
                 if (board.playerDtos.length > 0) {
                     setSpaces(board.spaceDtos)
                     setPlayers(board.playerDtos)
@@ -145,18 +118,18 @@ const GameContextProvider = ({children}: GameContextProviderPropsType) => {
 
 
     const unselectGame = useCallback(async () => {
-       // setGameId(-1)
+        setGameId(-1)
         setLoaded(false)
     }, [])
 
 
 
-    useEffect( () => {
-        const interval = setInterval( async () => {
-
-            if (loaded && gameId >= 0) {
+    useEffect(() => {
+        const interval = setInterval(async () => {
+            if (loaded && gameId) {
                 GameApi.getBoard(gameId).then(board => {
                     if (gameId === board.boardId) {
+
                         setSpaces(board.spaceDtos)
                         setPlayers(board.playerDtos)
                         setWidth(board.width)
@@ -171,23 +144,31 @@ const GameContextProvider = ({children}: GameContextProviderPropsType) => {
                                     setCurrentPlayerIndex(index)
                                 }
                             })
-                        } else {
-                            console.error("Load outdated")
-                        }
+
+                        } else {console.error("Load outdated")}
                     }
+
+
                 }).catch(() => {
                     console.error("Board could not be loaded")
                 })
+
+
             } else {
-                GameApi.getGames().then( games => {
+
+                GameApi.getGames().then(games => {
                     setGames(games)
+
                 }).catch(() => {
                     console.error("Games could not be loaded")
                 })
+
             }
-        }, )
+
+        }, 5000)
 
         return () => clearInterval(interval)
+
     }, [loaded, gameId])
 
 
@@ -216,3 +197,50 @@ const GameContextProvider = ({children}: GameContextProviderPropsType) => {
 }
 
 export default GameContextProvider
+
+
+
+
+// useEffect( () => {
+//     const interval = setInterval( async () => {
+//
+//         if (loaded && gameId >= 0) {
+//             GameApi.getBoard(gameId).then(board => {
+//                 if (gameId === board.boardId) {
+//                     setSpaces(board.spaceDtos)
+//                     setPlayers(board.playerDtos)
+//                     setWidth(board.width)
+//                     setHeight(board.height)
+//                     setGameId(board.boardId)
+//                     setGameName(board.boardName)
+//
+//                     if (board.currentPlayerDto) {
+//                         setCurrentPlayer(board.currentPlayerDto)
+//                         board.playerDtos.forEach((player, index) => {
+//                             if (player.playerId === board.currentPlayerDto?.playerId) {
+//                                 setCurrentPlayerIndex(index)
+//                             }
+//                         })
+//                     } else {
+//                         console.error("Load outdated")
+//                     }
+//                 }
+//             }).catch(() => {
+//                 console.error("Board could not be loaded")
+//             })
+//         } else {
+//             GameApi.getGames()
+//             setGames(games)
+//             //setGames(games)
+//             // GameApi.getGames().then( games => {
+//             //     setGames(games)
+//             //
+//             //
+//             // }).catch(() => {
+//             //     console.error("Games could not be loaded")
+//             // });
+//         }
+//     }, 5000)
+//
+//     return () => clearInterval(interval)
+// }, [loaded, gameId])

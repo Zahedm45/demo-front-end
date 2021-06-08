@@ -4,9 +4,9 @@ import {User} from "./User";
 
 
 export type Game = {
-    user : User[],
-    Id: number,
+    id: number,
     name: string,
     started: boolean
+    users : User[],
 
 }
