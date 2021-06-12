@@ -13,8 +13,11 @@ const GamesComponent: FunctionComponent<GamesComponentProps> = () => {
         !loaded ?
         <div>
             {
-                games.map((game, index) => 
-                <GameComponent key={"game" + index} game={game}/>
+                games.map((game, index) =>
+                    <div>
+                        <GameComponent key={"game" + index} game={game}/>
+                        <p/>&nbsp;<p/>
+                    </div>
                 )
             }
         </div>
