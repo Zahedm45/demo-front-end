@@ -28,6 +28,11 @@ class GameApi{
         return axios.put(`${this.BACKEND_URL}/board/${boardId}/switchplayer`)
     }
 
+
+    public addPlayer(boardId : number) {
+        return axios.post(`${this.BACKEND_URL}/board/${boardId}/player`)
+    }
+
     private static games : Game[] =[
         {
             id: 1, name: "Board 1", started: false,

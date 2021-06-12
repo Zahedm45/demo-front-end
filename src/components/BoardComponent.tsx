@@ -16,7 +16,7 @@ const BoardComponent: FunctionComponent<BoardComponentProps> = () => {
       loaded ?
       <div>
           <div>
-              <h1>{board.boardName} &nbsp; &nbsp; &nbsp;
+              <h1>{board.boardName} &nbsp; &nbsp;
                   <button type="button" onClick={unselectGame}>Game Lobby</button>
               </h1>
 

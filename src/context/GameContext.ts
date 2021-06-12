@@ -13,7 +13,8 @@ export type GameContextType = {
     loaded : boolean,
     board: Board,
     setCurrentPlayerOnSpace: (space: Space) => Promise<void>,
-    switchCurrentPlayer: () => Promise<void>
+    switchCurrentPlayer: () => Promise<void>,
+    addPlayer: (game: Game) => Promise<void>
 }
 //Define a new context of type GameContextType
 //Below we define the "default" values which are set upon initialization of the context
@@ -35,7 +36,10 @@ const GameContext = createContext<GameContextType>({
         width: 0
     },
     setCurrentPlayerOnSpace: async () => {},
-    switchCurrentPlayer: async () => {}
+    switchCurrentPlayer: async () => {},
+    addPlayer: async () => {
+        console.log("I know")
+    }
 });
 
 export default GameContext

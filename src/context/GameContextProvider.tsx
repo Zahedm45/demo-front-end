@@ -32,7 +32,7 @@ const GameContextProvider = ({children}: GameContextProviderPropsType) => {
     const [height, setHeight] = useState<number>(0)
     const [gameId, setGameId] = useState<number>(0)
     const [gameName, setGameName] = useState<string>("hi")
-
+    //const [addPlayer, setAddPlayer] = useState<Player>()
     //Define a function used to set a player ona  specific space
     const setPlayerOnSpace = useCallback(async (space: Space) => {
         //Check if space already has a player standing on it
@@ -69,6 +69,10 @@ const GameContextProvider = ({children}: GameContextProviderPropsType) => {
         }).catch(()=>console.error("Error while switching player"))
         
     }, [currentPlayerIndex, gameId, playerCount, players])
+
+
+
+
     
     const board = useMemo<Board>(() => {
         return ({
@@ -84,10 +88,22 @@ const GameContextProvider = ({children}: GameContextProviderPropsType) => {
     }, [currentPlayer, currentPlayerIndex, gameId, gameName, height, players, spaces, width])
 
 
+    const addPlayer = useCallback(async (game : Game) => {
+        console.log(game.id)
+        GameApi.addPlayer(game.id).then(b => {
+
+
+
+        }).catch(() => {
+            console.error("")
+        })
+
+    }, [])
+
 
     const selectGame = useCallback(async (game: Game) => {
         if (game.started) {
-            GameApi.getBoard(game.id).then(board => {
+            GameApi.getBoard(game.id).then(board=> {
                 if (board.playerDtos.length > 0) {
                     setSpaces(board.spaceDtos)
                     setPlayers(board.playerDtos)
@@ -126,6 +142,7 @@ const GameContextProvider = ({children}: GameContextProviderPropsType) => {
 
     useEffect(() => {
         const interval = setInterval(async () => {
+
             if (loaded && gameId) {
                 GameApi.getBoard(gameId).then(board => {
                     if (gameId === board.boardId) {
@@ -177,6 +194,8 @@ const GameContextProvider = ({children}: GameContextProviderPropsType) => {
 
 
 
+
+
     return (
         <GameContext.Provider
             value={
@@ -188,6 +207,7 @@ const GameContextProvider = ({children}: GameContextProviderPropsType) => {
                     switchCurrentPlayer: switchToNextPlayer,
                     selectGame: selectGame,
                     unselectGame: unselectGame,
+                    addPlayer: addPlayer,
                     
                 }
             }>
