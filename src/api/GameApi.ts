@@ -33,29 +33,64 @@ class GameApi{
         return axios.post(`${this.BACKEND_URL}/board/${boardId}/player`)
     }
 
-    private static games : Game[] =[
-        {
-            id: 1, name: "Board 1", started: false,
-            users: [
-                {playerId: 1, playerName: "player 1"},
-                {playerId: 2, playerName: "player 2"}
-            ]
-        },
+    // private static games : Game[] =[
+    //     {
+    //         id: 1, name: "Board 1", started: false,
+    //         users: [
+    //             {playerId: 1, playerName: "player 1"},
+    //             {playerId: 2, playerName: "player 2"}
+    //         ]
+    //     },
+    //
+    //     {
+    //         id: 2, name: "Board 2", started: false,
+    //         users: [
+    //             {playerId: 1, playerName: "player 1"},
+    //             {playerId: 2, playerName: "player 2"}
+    //         ]
+    //     }
+    //
+    // ]
 
-        {
-            id: 2, name: "Board 2", started: false,
-            users: [
-                {playerId: 1, playerName: "player 1"},
-                {playerId: 2, playerName: "player 2"}
-            ]
-        }
-
-    ]
 
     public getGames() {
         return axios.get<Game[]>(`${this.BACKEND_URL}/game`).then(value =>value.data)
         //return GameApi.games
     }
+
+
+    public createGame() {
+        const game = {
+            name: "Test Game",
+            started: false,
+            users: []
+        }
+
+        return axios.post<number>(`${this.BACKEND_URL}/game/`, game).then(value =>value.data)
+    }
 }
 
 export default GameApi.getInstance()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
