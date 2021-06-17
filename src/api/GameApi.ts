@@ -34,10 +34,10 @@ class GameApi{
         const player = {
             boardId: boardId,
             playerId: null,
-            playerName: "player2",
-            playerColor: "pink",
+            playerName: "player4",
+            playerColor: "yellow",
             x:1,
-            y:2
+            y:4
 
         }
 

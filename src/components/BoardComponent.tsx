@@ -23,7 +23,8 @@ const BoardComponent: FunctionComponent<BoardComponentProps> = () => {
           </div>
 
         <div className={styles.container}>
-          { board.spaceDtos.map((spaceArray, index) =>
+          {
+              board.spaceDtos.map((spaceArray, index) =>
               <div key={"spaceArray" + index}>
                 {
                   spaceArray.map((space, index) =>

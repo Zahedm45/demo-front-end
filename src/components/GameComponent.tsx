@@ -2,6 +2,8 @@ import {FunctionComponent, useContext, useState} from "react";
 import {Game} from "../types/Game";
 import GameContext from "../context/GameContext";
 import GameApi from "../api/GameApi";
+import {Board} from "../types/Board";
+import GameContextProvider from "../context/GameContextProvider";
 
 export type GameComponentProps = {
     game: Game
@@ -69,10 +71,12 @@ export const GameComponent: FunctionComponent<GameComponentProps> = ({game}) => 
             }
 
             <ul>
+
                 {
                     game.users.map( (user, index) =>
                         <li>{user.playerName} (no function yet) </li>)
                 }
+
             </ul>
 
         </div>
@@ -93,3 +97,12 @@ export const GameComponent: FunctionComponent<GameComponentProps> = ({game}) => 
     //     </div>
     // )
 }
+
+
+
+
+//
+// {
+//     game.users.map( (user, index) =>
+//         <li>{user.playerName} (no function yet) </li>)
+// }
