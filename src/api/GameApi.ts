@@ -2,10 +2,15 @@ import axios from "axios";
 import {Board} from "../types/Board";
 import {Space} from "../types/Space";
 import {Game} from "../types/Game";
+import {useState} from "react";
 
 class GameApi{
     private static instance : GameApi;
     private readonly BACKEND_URL = "http://localhost:8080"
+
+
+
+
     private constructor() {
     }
 
@@ -29,15 +34,16 @@ class GameApi{
     }
 
 
+
     public addPlayer(boardId : number) {
-        console.log(boardId)
+
         const player = {
             boardId: boardId,
             playerId: null,
-            playerName: "player4",
-            playerColor: "yellow",
-            x:1,
-            y:4
+            playerName: null,
+            playerColor: null,
+            x:null,
+            y:null
 
         }
 

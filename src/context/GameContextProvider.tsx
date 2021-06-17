@@ -89,7 +89,6 @@ const GameContextProvider = ({children}: GameContextProviderPropsType) => {
 
 
     const addPlayer = useCallback(async (game : Game) => {
-        console.log(game.id)
         GameApi.addPlayer(game.id).then(board => {
 
             //setCurrentPlayer(players[newPlayerIndex])

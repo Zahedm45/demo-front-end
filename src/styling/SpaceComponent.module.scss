@@ -41,3 +41,10 @@ $width: 75px;
   @include player(blue)
 }
 
+.pinkPlayer {
+  @include player(pink)
+}
+
+.orangePlayer {
+  @include player(orange)
+}
