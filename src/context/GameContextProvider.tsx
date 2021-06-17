@@ -90,8 +90,22 @@ const GameContextProvider = ({children}: GameContextProviderPropsType) => {
 
     const addPlayer = useCallback(async (game : Game) => {
         console.log(game.id)
-        GameApi.addPlayer(game.id).then(b => {
+        GameApi.addPlayer(game.id).then(board => {
+            board.spaceDtos.addPlayer
 
+            //setCurrentPlayer(players[newPlayerIndex])
+
+            //setCurrentPlayer(b)
+
+            //setPlayers(board.playerDtos)
+
+
+
+
+
+        // if (board.playerDtos.length > 0) {
+        //
+        // }
 
 
         }).catch(() => {
@@ -102,6 +116,11 @@ const GameContextProvider = ({children}: GameContextProviderPropsType) => {
 
 
     const selectGame = useCallback(async (game: Game) => {
+        game.started = true
+        console.log(board.playerDtos.length)
+        // for (let player of board.playerDtos) {
+        //     console.log(player.playerName)
+        // }
         if (game.started) {
             GameApi.getBoard(game.id).then(board=> {
                 if (board.playerDtos.length > 0) {

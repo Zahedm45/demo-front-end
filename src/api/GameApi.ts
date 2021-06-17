@@ -30,27 +30,20 @@ class GameApi{
 
 
     public addPlayer(boardId : number) {
-        return axios.post(`${this.BACKEND_URL}/board/${boardId}/player`)
+        console.log(boardId)
+        const player = {
+            boardId: boardId,
+            playerId: null,
+            playerName: "player2",
+            playerColor: "pink",
+            x:1,
+            y:2
+
+        }
+
+        return axios.post(`${this.BACKEND_URL}/board/${boardId}/player`, player).then(value => value.data)
     }
 
-    // private static games : Game[] =[
-    //     {
-    //         id: 1, name: "Board 1", started: false,
-    //         users: [
-    //             {playerId: 1, playerName: "player 1"},
-    //             {playerId: 2, playerName: "player 2"}
-    //         ]
-    //     },
-    //
-    //     {
-    //         id: 2, name: "Board 2", started: false,
-    //         users: [
-    //             {playerId: 1, playerName: "player 1"},
-    //             {playerId: 2, playerName: "player 2"}
-    //         ]
-    //     }
-    //
-    // ]
 
 
     public getGames() {
@@ -67,6 +60,22 @@ class GameApi{
         }
 
         return axios.post<number>(`${this.BACKEND_URL}/game/`, game).then(value =>value.data)
+    }
+
+
+    public createBoard(game: Game, width: number, height: number) {
+       // console.log(game.id)
+
+        const board = {
+            boardId : game.id,
+            boardName: "default",
+            width: width,
+            height: height,
+            spaceDtos: [],
+            playerDtos: []
+        }
+
+        return axios.post<number>(`${this.BACKEND_URL}/board/`, board).then(value =>value.data)
     }
 }
 

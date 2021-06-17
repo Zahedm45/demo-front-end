@@ -10,7 +10,9 @@ const GamesComponent: FunctionComponent<GamesComponentProps> = () => {
 
     const {games, loaded} = useContext(GameContext)
     const onClickCreateGame = async () =>{
-       await GameApi.createGame()
+        await GameApi.createGame()
+
+
     }
 
     return (

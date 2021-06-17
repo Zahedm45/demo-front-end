@@ -38,6 +38,10 @@ export const GameComponent: FunctionComponent<GameComponentProps> = ({game}) => 
         setEdit(false)
     }
 
+    const onClickCreateBoard = async ()=> {
+        await GameApi.createBoard(game,5, 5)
+    }
+
 
     return (
         <div>
@@ -47,6 +51,7 @@ export const GameComponent: FunctionComponent<GameComponentProps> = ({game}) => 
                     <button type="button" onClick={onClickAddPlayer}>Add Player</button>&nbsp;
                     <button type="button" onClick={onClickEdit}>Edit</button> &nbsp;
                     <button type="button" onClick={onClickGame}>Play</button>&nbsp;
+                    <button type="button" onClick={onClickCreateBoard}>Create Board</button>&nbsp;
 
 
                 </div>
