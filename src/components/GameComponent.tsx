@@ -94,7 +94,7 @@ export const GameComponent: FunctionComponent<GameComponentProps> = ({game}) => 
 
                 {
                     game.users.map( (user, index) =>
-                        <li>{user.playerName} (no function yet) </li>)
+                        <li>{user.playerName} ( no function yet) </li>)
                 }
 
             </ul>

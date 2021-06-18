@@ -74,7 +74,7 @@ class GameApi{
 
         const board = {
             boardId : game.id,
-            boardName: "default",
+            boardName: "defaultBoard",
             width: width,
             height: height,
             spaceDtos: [],

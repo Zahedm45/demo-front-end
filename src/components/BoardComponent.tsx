@@ -16,9 +16,18 @@ const BoardComponent: FunctionComponent<BoardComponentProps> = () => {
       loaded ?
       <div>
           <div>
-              <h1>{board.boardName} &nbsp; &nbsp;
+              <h3>{board.boardName + board.boardId} &nbsp; &nbsp;
                   <button type="button" onClick={unselectGame}>Game Lobby</button>
-              </h1>
+              </h3>
+
+              {
+                  board.playerDtos.map( (player, index) =>
+                      <li>{player.playerName + "( " + player.playerColor + " )"} </li>)
+              } &nbsp;
+
+              {
+                  <h4>Current player:  {board.currentPlayerDto?.playerName + "( " + board.currentPlayerDto?.playerColor + " )"}</h4>
+              }
 
           </div>
 
