@@ -1,4 +1,4 @@
-import {FunctionComponent, useContext, useState} from "react";
+import React, {FunctionComponent, useContext, useState} from "react";
 import {Game} from "../types/Game";
 import GameContext from "../context/GameContext";
 import GameApi from "../api/GameApi";
@@ -12,9 +12,10 @@ export type GameComponentProps = {
 export const GameComponent: FunctionComponent<GameComponentProps> = ({game}) => {
     const {selectGame} = useContext(GameContext)
     const {addPlayer} = useContext(GameContext)
+    const [boardCreated, setBoardCreated] = useState(false)
 
     const onClickGame = async () => {
-        selectGame(game)
+        await selectGame(game)
     }
 
     const [edit, setEdit] = useState(false);
@@ -27,6 +28,7 @@ export const GameComponent: FunctionComponent<GameComponentProps> = ({game}) => 
 
     const onClickAddPlayer = () => {
         addPlayer(game)
+
     }
 
     const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,7 +43,15 @@ export const GameComponent: FunctionComponent<GameComponentProps> = ({game}) => 
     }
 
     const onClickCreateBoard = async ()=> {
-        await GameApi.createBoard(game,5, 5)
+        await GameApi.createBoard(game,5, 5).then(() => console.log("Board is created! "))
+
+       // setBoardCreated(true)
+       //  const addPButton = document.getElementById("addPB")
+       //  if (addPButton != null) {
+       //      addPButton.remove()
+       //  }
+
+
     }
 
 
@@ -53,7 +63,17 @@ export const GameComponent: FunctionComponent<GameComponentProps> = ({game}) => 
                     <button type="button" onClick={onClickAddPlayer}>Add Player</button>&nbsp;
                     <button type="button" onClick={onClickEdit}>Edit</button> &nbsp;
                     <button type="button" onClick={onClickGame}>Play</button>&nbsp;
-                    <button type="button" onClick={onClickCreateBoard}>Create Board</button>&nbsp;
+                    <button id="addPB" type="button" onClick={onClickCreateBoard}>Create Board</button>&nbsp;
+
+                    {/*{*/}
+                    {/*    !boardCreated ?*/}
+                    {/*        <div>*/}
+                    {/*            <button id="addPB" type="button" onClick={onClickCreateBoard}>Create Board</button>&nbsp;*/}
+                    {/*        </div>*/}
+                    {/*        :*/}
+                    {/*        <div/>*/}
+                    {/*}*/}
+
 
 
                 </div>

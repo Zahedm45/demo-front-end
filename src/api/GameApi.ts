@@ -3,6 +3,7 @@ import {Board} from "../types/Board";
 import {Space} from "../types/Space";
 import {Game} from "../types/Game";
 import {useState} from "react";
+import {executionAsyncResource} from "async_hooks";
 
 class GameApi{
     private static instance : GameApi;
@@ -70,7 +71,6 @@ class GameApi{
 
 
     public createBoard(game: Game, width: number, height: number) {
-       // console.log(game.id)
 
         const board = {
             boardId : game.id,
@@ -81,7 +81,10 @@ class GameApi{
             playerDtos: []
         }
 
-        return axios.post<number>(`${this.BACKEND_URL}/board/`, board).then(value =>value.data)
+        return axios.post<number> (`${this.BACKEND_URL}/board/`, board).then(value =>value.data)
+
+
+
     }
 }
 
